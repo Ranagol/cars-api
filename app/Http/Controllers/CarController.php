@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Car;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CarController extends Controller
 {
@@ -14,7 +15,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        return Car::all();
     }
 
     /**
@@ -35,7 +36,16 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $car = new Car;
+        $car->brand = $request->brand;
+        $car->model = $request->model;
+        $car->year = $request->year;
+        $car->maxSpeed = $request->maxSpeed;
+        $car->isAutomatic = $request->isAutomatic;
+        $car->engine = $request->engine;
+        $car->numberOfDoors = $request->numberOfDoors;
+        $car->save();
+        return $car;
     }
 
     /**
@@ -46,7 +56,7 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        //
+        return $car;
     }
 
     /**
@@ -67,9 +77,17 @@ class CarController extends Controller
      * @param  \App\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Car $car)
+    public function update(Request $request, Car $car)//this is experimenting, this may not work
     {
-        //
+        $car->brand = $request->brand;
+        $car->model = $request->model;
+        $car->year = $request->year;
+        $car->maxSpeed = $request->maxSpeed;
+        $car->isAutomatic = $request->isAutomatic;
+        $car->engine = $request->engine;
+        $car->numberOfDoors = $request->numberOfDoors;
+        $car->save();
+        return $car;
     }
 
     /**
@@ -80,6 +98,7 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        //
+        $car->delete();
+        return new JsonResponse(true);
     }
 }
