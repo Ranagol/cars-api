@@ -15,7 +15,10 @@ class CarController extends Controller
      */
     public function index()
     {
-        return Car::all();
+        //`/cars?take=10&skip=5`
+        $skip = request()->input('skip', 0);//take the skip value from the url request
+        $take = request()->input('take', Car::count());//take the take value from the url request
+        return Car::skip($skip)->take($take)->get();   
     }
 
     /**
@@ -36,6 +39,16 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'brand' => 'required|min:2',
+            'model' => 'required|min:2',
+            'year' => 'required',
+            'maxSpeed' => 'integer|min:20|max:300',
+            'isAutomatic' => 'required',
+            'engine' => 'required',
+            'numberOfDoors' => 'required|integer|min:2|max:5',
+        ]);
+
         $car = new Car;
         $car->brand = $request->brand;
         $car->model = $request->model;
@@ -79,6 +92,16 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)//this is experimenting, this may not work
     {
+        $validatedData = $request->validate([
+            'brand' => 'required|min:2',
+            'model' => 'required|min:2',
+            'year' => 'required',
+            'maxSpeed' => 'integer|min:20|max:300',
+            'isAutomatic' => 'required',
+            'engine' => 'required',
+            'numberOfDoors' => 'required|integer|min:2|max:5',
+        ]);
+        
         $car->brand = $request->brand;
         $car->model = $request->model;
         $car->year = $request->year;
